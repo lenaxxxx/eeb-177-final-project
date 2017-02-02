@@ -1,0 +1,4 @@
+Three groups that I chose to fo the final project on are:
+	1. Cetacea (aquatic mammals: dolphins, whales, ect.)  # of unique species = 597
+	2. Primates					      # of unique species = 526
+	3. Proboscidea (elephants ect.)			      # of unique species = 2952
