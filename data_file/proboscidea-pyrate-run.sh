@@ -20,4 +20,4 @@ Rscript process_proboscidea_data.R
 python ~/PyRate/PyRate.py proboscidea_PyRate.py -data_info > data_summary.txt
 
 # And then, run PyRate!
-python ~/PyRate/PyRate.py proboscidea_PyRate.py -n 982000
+python ~/PyRate/PyRate.py proboscidea_PyRate.py -n 2500000

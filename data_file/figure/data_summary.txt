@@ -1,0 +1,11 @@
+
+                           PyRate - 20170222
+
+           Bayesian estimation of speciation and extinction
+                  rates from fossil occurrence data        
+
+               Daniele Silvestro, Jan Schnitzler et al.
+                        pyrate.help@gmail.com
+
+
+

@@ -1,0 +1,40 @@
+---
+title: "range_graph"
+author: "Linna Sun"
+date: "March 9, 2017"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+
+setwd("~/Desktop/eeb-177/final_project/data_file/occurence_graph/")
+proboscidea <- read.csv("~/Desktop/eeb-177/final_project/data_file/occurence_graph/manipulated_data.csv")
+names(proboscidea) <- c("genus", "species", "minage","maxage")
+head(proboscidea)
+
+```
+```{r}
+proboscidea_occ <- ggplot(proboscidea, aes(s = species, maxage, colour = genus))
+proboscidea_occ + geom_linerange(aes(ymin = minage, ymax = maxage))+theme(legend.position = "none")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
