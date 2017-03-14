@@ -54,7 +54,7 @@ base_world
 library(ggplot2)
 
 setwd("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/")
-proboscidea <- read.csv("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/formatted_location.csv", header = T, as.is = T)
+proboscidea <- read.csv("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/location.csv", header = T, as.is = T)
 head(proboscidea)
 
 ```
@@ -62,7 +62,7 @@ head(proboscidea)
 ```{r}
 
 map_data <- 
-  base_world_messy1 + geom_point(data=proboscidea,aes(x=paleolng, y=paleolat), colour="Blue",pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records on World Map", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
+  base_world_messy1 + geom_point(data=proboscidea,aes(x=lng, y=lat), colour="Blue",pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records on World Map", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
 
 map_data
 ```
@@ -70,7 +70,7 @@ map_data
 ```{r}
 
 map_data <- 
-  base_world_messy1 + geom_point(data=proboscidea,aes(x=paleolng, y=paleolat, colour=accepted_rank),pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records according to Rank", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
+  base_world_messy1 + geom_point(data=proboscidea,aes(x=lng, y=lat, colour=accepted_rank),pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records according to Rank", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
 
 map_data
 ```
@@ -82,13 +82,19 @@ myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
 sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 50))
 
 map_data <- 
-  base_world_messy + geom_point(data=proboscidea,aes(x=paleolng, y=paleolat, colour=max_ma),pch=2, size=0.2, alpha=I(1)) + labs(title = "Fossil Records according to Time", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10)) + sc
+  base_world_messy + geom_point(data=proboscidea,aes(x=lng, y=lat, colour=max_ma),pch=2, size=0.2, alpha=I(1)) + labs(title = "Fossil Records according to Time", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10)) + sc
 
 map_data
 ```
 
 
+```{r}
 
+map_data <- 
+  base_world_messy1 + geom_point(data=proboscidea,aes(x=lng, y=lat, colour=family),pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records according to Family", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
+
+map_data
+```
 
 
 
