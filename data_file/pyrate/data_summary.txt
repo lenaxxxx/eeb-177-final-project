@@ -1,0 +1,188 @@
+
+                           PyRate - 20170222
+
+           Bayesian estimation of speciation and extinction
+                  rates from fossil occurrence data        
+
+               Daniele Silvestro, Jan Schnitzler et al.
+                        pyrate.help@gmail.com
+
+
+
+
+The analysis includes 165 species (0 were excluded)
+Using Gamma priors on the birth-death rates (G_l[1.1,1.1], G_m[1.1,1.1]).
+
+
+DATA SUMMARY
+
+165 species included in the data set
+57 species have a single occurrence, 2 species are extant
+3237 fossil occurrences (1 replicates), ranging from 56.469 (+/- 0.0) to 0.001 (+/- 0.0) Ma
+
+Taxon	FA	LA
+Afrochoerodon_kisumuensis	16.795	15.67	
+Amahuacatherium_peruvium	9.038	7.667	
+Amebelodon	17.94	5.241	
+Amebelodon_britti	15.098	7.324	
+Amebelodon_floridanus	19.091	5.752	
+Amebelodon_fricki	13.041	6.302	
+Amebelodon_grandincisivus	9.515	9.515	
+Amebelodontinae	15.013	7.687	
+Anancinae	10.026	0.12	
+Anancus	20.706	1.429	
+Anancus_arvernensis	8.606	0.754	
+Anancus_defloccatus	0.598	0.598	
+Anancus_kenyensis	20.125	2.768	
+Anancus_orarius	2.33	2.33	
+Anancus_perimensis	4.111	4.111	
+Archaeobelodon	16.177	16.177	
+Archidiskodon_celebensis	3.586	0.832	
+Barytherioidea	28.829	28.829	
+Barytherium	38.725	29.549	
+Barytherium_grave	41.214	29.706	
+Chilgatherium_harrisi	26.395	26.395	
+Choerolophodon	18.548	5.451	
+Choerolophodon_anatolicus	9.011	9.011	
+Choerolophodon_pentelici	11.532	5.822	
+Cuvieronius	4.89	0.013	
+Cuvieronius_priestleyi	0.932	0.932	
+Cuvieronius_tropicus	9.223	0.465	
+Daouitherium_rebouli	49.001	49.001	
+Deinotheriidae	14.963	1.762	
+Deinotherium	22.78	2.554	
+Deinotherium_bozasi	11.584	0.498	
+Deinotherium_giganteum	14.526	3.745	
+Deinotherium_indicum	11.213	11.213	
+Dibelodon_andium	0.145	0.145	
+Dibelodon_praecursor	4.066	3.15	
+Elephantidae	19.399	0.096	
+Elephantinae	7.509	2.344	
+Elephantoidea	25.516	14.967	
+Elephas	39.968	0.024	
+Elephas_beyeri	1.732	1.732	
+Elephas_cypriotes	0.169	0.169	
+Elephas_falconeri	1.752	0.331	
+Elephas_maximus	1.636	0.025	extant
+Elephas_maximus_indicus	1.779	1.779	
+Elephas_nawataensis	7.117	7.117	
+Eritherium_azzouzorum	56.469	56.469	
+Eritreum_melakeghebrekristosi	25.284	25.284	
+Eubelodon	10.306	10.306	
+Eubelodon_morrilli	12.801	11.024	
+Gnathabelodon_buckneri	12.66	12.66	
+Gnathabelodon_thorpei	7.659	7.659	
+Gomphotheriidae	22.161	0.034	
+Gomphotherium	28.375	0.065	
+Gomphotherium_angustidens	19.557	5.752	
+Gomphotherium_connexus	7.186	7.186	
+Gomphotherium_gratum	0.288	0.288	
+Gomphotherium_obscurum	20.408	7.792	
+Gomphotherium_shensiensis	13.605	13.014	
+Gomphotherium_simplicidens	7.337	7.337	
+Gomphotherium_wimani	16.686	5.803	
+Haplomastodon	2.526	0.023	
+Haplomastodon_(Aleamastodon)_guayasensis	0.13	0.13	
+Haplomastodon_chimborazi	2.036	0.046	
+Haplomastodon_waringi	2.212	0.463	
+Losodokodon_losodokius	25.071	23.598	
+Loxodonta	22.076	0.126	
+Loxodonta_africana	1.702	0.001	extant
+Loxodonta_creutzburgi	1.822	1.822	
+Mammut	20.267	0.026	
+Mammut_americanum	5.79	0.005	
+Mammut_cosoensis	2.735	2.735	
+Mammut_furlongi	11.682	7.116	
+Mammut_matthewi	12.88	1.881	
+Mammut_raki	2.132	2.132	
+Mammuthus	15.841	0.004	
+Mammuthus_columbi	16.874	0.012	
+Mammuthus_exilis	0.144	0.032	
+Mammuthus_hayi	3.424	0.304	
+Mammuthus_lamarmorae	10.867	1.401	
+Mammuthus_meridionalis	5.121	0.068	
+Mammuthus_primigenius	3.401	0.008	
+Mammuthus_trogontherii	2.355	0.103	
+Mammutidae	31.236	0.018	
+Mastodon_bumiajuensis	1.688	1.537	
+Mastodon_proavus	15.868	13.984	
+Mastodon_spenceri	16.429	16.429	
+Mastodontidae	20.14	2.967	
+Moeritheriidae	46.511	45.07	
+Moeritherium	41.505	36.291	
+Moeritherium_chehbeurameuri	41.022	41.022	
+Moeritherium_gracile	36.476	31.79	
+Moeritherium_lyonsi	37.781	31.833	
+Moeritherium_trigonodon	32.27	29.579	
+Morrillia_barbouri	1.344	0.855	
+Neodesmostylus_primigenius	1.349	1.349	
+Notiomastodon	1.696	1.696	
+Numidotheriidae	51.32	51.32	
+Numidotherium	33.935	33.935	
+Numidotherium_koholense	53.362	53.362	
+Numidotherium_savagei	40.572	40.572	
+Omanitherium_dhofarensis	32.253	32.253	
+Palaeoloxodon_antiquus	2.521	0.024	
+Palaeoloxodon_mnaidriensis	1.043	1.043	
+Palaeoloxodon_naumanni	0.118	0.03	
+Palaeoloxodon_recki	12.533	0.008	
+Palaeomastodon	32.639	23.055	
+Palaeomastodon_beadnelli	29.395	29.395	
+Palaeomastodon_minor	31.119	31.119	
+Palaeomastodon_parvus	29.056	29.056	
+Palaeomastodon_wintoni	29.174	29.174	
+Palaeomastodontidae	23.39	23.39	
+Pediolophodon	11.049	11.049	
+Phiomia	38.133	24.804	
+Phiomia_major	26.218	26.218	
+Phiomia_serridens	30.481	30.481	
+Phosphatherium_escuilliei	52.559	52.559	
+Platybelodon	18.443	6.399	
+Platybelodon_barnumbrowni	10.367	10.367	
+Platybelodon_loomisi	18.388	7.347	
+Primelephas	7.107	5.865	
+Primelephas_korotorensis	16.861	2.58	
+Proboscidea	56.073	0.015	
+Prodeinotherium	26.306	12.959	
+Prodeinotherium_bavaricum	17.4	11.443	
+Prodeinotherium_hobleyi	21.433	11.972	
+Prodeinotherium_pentapotamiae	19.828	11.87	
+Protanancus	19.574	12.546	
+Rhynchotherium	11.869	0.497	
+Rhynchotherium_blicki	19.222	7.133	
+Rhynchotherium_falconeri	9.361	2.279	
+Serbelodon	11.892	8.561	
+Serbelodon_barbourensis	10.672	9.0	
+Serbelodon_burnhami	12.331	10.554	
+Serridentinus_mongoliensis	23.028	23.028	
+Sinomastodon	2.549	2.549	
+Stegodibelodon_schneideri	11.342	3.696	
+Stegodon	22.851	0.073	
+Stegodon_florensis	2.146	0.215	
+Stegodon_kaisensis	16.804	2.275	
+Stegodon_luzonensis	1.03	1.03	
+Stegodon_sompoensis	3.575	1.148	
+Stegodon_sondaari	1.604	1.604	
+Stegodon_sumbaensis	2.306	2.306	
+Stegodon_trigonocephalus	2.559	0.082	
+Stegodon_yuanmouensis	1.258	1.258	
+Stegodontidae	10.419	10.419	
+Stegolophodon	21.389	2.942	
+Stegomastodon	10.005	0.023	
+Stegomastodon_aftoniae	2.314	0.689	
+Stegomastodon_mirificus	4.582	0.514	
+Stegomastodon_platensis	0.744	0.303	
+Stegomastodon_primitivus	4.819	2.735	
+Stegomastodon_waringi	2.293	0.007	
+Stegotetrabelodon	19.321	5.774	
+Stegotetrabelodon_orbus	11.09	4.451	
+Synconolophus	6.991	6.991	
+Tetrabelodon_angustidens	21.116	1.98	
+Tetrabelodon_osborni	15.943	11.152	
+Tetralophodon	13.183	2.616	
+Tetralophodon_longirostris	12.405	7.12	
+Zygolophodon	26.013	2.674	
+Zygolophodon_aegyptensis	16.507	16.507	
+Zygolophodon_morotoensis	21.267	14.155	
+Zygolophodon_tapiroides	14.251	2.706	
+Zygolophodon_turicensis	14.511	7.125	

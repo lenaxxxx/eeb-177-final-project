@@ -6,7 +6,7 @@
 cd ~/Desktop/eeb-177/final_project/data_file
 
 # download the data
-wget -O proboscidea.csv "https://paleobiodb.org/data1.2/occs/list.csv?base_name=proboscidea&show=acconly"
+wget -O proboscidea.csv "https://paleobiodb.org/data1.2/occs/list.csv?base_name=tethytheria&show=acconly"
 
 # use the R script we had created to format the data into a pyrate-friendly file
 # NOTE!
