@@ -33,19 +33,7 @@ base_world_messy1 <- p + geom_polygon(data=world_map, aes(x=long, y=lat, group=g
 base_world_messy1
 ```
 
-```{r}
-#Strip the map down so it looks super clean (and beautiful!)
-cleanup <- 
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        panel.background = element_rect(fill = 'white', colour = 'white'), 
-        axis.line = element_line(colour = "white"), legend.position="none",
-        axis.ticks=element_blank(), axis.text.x=element_blank(),
-        axis.text.y=element_blank())
 
-base_world <- base_world_messy1 + cleanup
-
-base_world
-```
 
 
 
