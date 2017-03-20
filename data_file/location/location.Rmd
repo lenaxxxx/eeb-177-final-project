@@ -42,6 +42,7 @@ base_world_messy1
 library(ggplot2)
 
 setwd("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/")
+
 proboscidea <- read.csv("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/location.csv", header = T, as.is = T)
 head(proboscidea)
 
@@ -53,6 +54,7 @@ map_data <-
   base_world_messy1 + geom_point(data=proboscidea,aes(x=lng, y=lat), colour="Blue",pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records on World Map", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
 
 map_data
+
 ```
 
 ```{r}
@@ -83,9 +85,14 @@ map_data <-
 
 map_data
 ```
+```{r}
+library(tidyr)
+library(dplyr)
 
-
-
+counts <- proboscidea %>%  gather(key = type, value = age, min_ma, max_ma) %>% mutate(count = ifelse(type == "maxage", -1, 1))%>%group_by(age, family) %>%summarise(count=sum(count))%>% arrange(age,count) %>% mutate(diversity = cumsum(count)) 
+ggplot(counts, aes(x=age, y=count, color = family)) +
+  geom_line()
+```
 
 
 

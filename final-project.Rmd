@@ -1,0 +1,280 @@
+---
+title: "The Evolution of Proboscidea"
+author: "Linna Sun"
+geometry: margin=1in
+output:
+  pdf_document: default
+fontsize: 12pt
+bibliography: biblio.bib
+csl: ecology-letters.csl
+---
+
+## Abstract
+
+
+## Introduction 
+
+
+*Proboscidea* is a taxonomic order of Afrotherian mammals. The fossil occurence records, from **PaleoBiology Database**[(PBDB)](https://paleobiodb.org)\footnote{https://paleobiodb.org}, showed that the earliest fossil records were from 57.6 million years ago, which was from the earliest species of Proboscidea -- *Eritherium azzouzorum*. Moreover, the database gave a total of 115 unique species, from them only 3 extant species, which are all from family *Elephantidea*; the information from **PBDB** gaves us a conclusion: that during almost 58 million years, 97.39% of *Proboscidea* species went extinct, leaving only 2.61% of all species living today.  
+
+\begin{figure}[h]
+\label{fig:pop}
+\includegraphics[width=8cm, height=10cm,keepaspectratio]{screen-shots/proboscidea_by_iririv-d6yi847.jpg}
+\centering
+\caption{Evolution of Proboscidea}
+\end{figure}
+
+  *Proboscidea* were first originated in Africa and managed to spread to all continents across the World, except Australia and Antartica[@Shoshani_2001]. They reached the peak diversity with around 100 species during Miocene period, 24-5 million years ago. According to Shoshani, the reason for a expansion of *Proboscidea* was due to the appearance of grasses on the Earth during those times.
+
+  In this project, we will be producing evolutionary graphs using the data from **PaleoBiology Database** and using the graphs understand the dispersal of *Proboscidea* and focus mainly on extinction of this taxa.
+
+## Methods and Figures
+
+  In this project, many data will be used in producing figures: such as occurance, early appearance, late apperance, genus, species name, and location. 
+
+1. Species would be used to construct a graph showing how many species lived at each particular time. The graph would in form of geom graph.
+
+2. Another graph will be showing how long each species lived (aka stratigraphic record). In this graph, both ealy appearance and late appearance will be used.
+
+3. Occurance data would be used in PyRate to plot graphs such as extinction, speciation, and diversification rates.
+
+  Overall, more than three graphs would be made to understand the data.
+
+#### Problem
+  One of the biggest problems was getting the database. The name *Proboscidea* is not only order of afrotherian mammals, it is also an order of class *Insecta*; therefore, when getting the data from **PBDB**, the data that showed up were from wrong class. In order to fix this issue, instead of searching for *Proboscidea*, I used *Tethytheria*, which is the higher classification level (clade) in which *Proboscidea* are found. And using these data, I was able to use "grep -w Proboscidea" to extract all the *Proboscidea* data and removed data from its sister order.
+
+### 1. Generating Occurence graph and Diversity graph of the Species
+  In order to create beautiful graphs in Rmarkdown, we first need to manipulate the data and get the data that we need. Python was used to do this task, below are the codes that were used (the below code was borrowed from the lecture of Professor Alfaro):
+
+```{python, eval = F}
+# first we needed to open the file and read the file in python
+infile = "/home/eeb177-student/Desktop/eeb-177/eeb-177-final-project/data_file/occurence_graph/proboscidea.csv"
+with open(infile, 'r') as ff:
+    proboscidea_recs = ff.readlines()
+    
+    # second step is we needed to create a dictionary
+    # use defauldict
+    from collections import defaultdict
+    
+    species_ranges = defaultdict(list)
+    
+    # make a dictionary
+    for line in proboscidea_recs:
+        species = line.split('","')[5]
+        minage = line.split('","')[10]
+        maxage = line.split('","')[11]
+        mean_age = (float(minage)+float(maxage))/2
+        species_ranges[species].append(mean_age) #add species as keys and mean ages as elements to the list of ages
+```
+```{python, eval = F}
+# create an output file
+output = open("/home/eeb177-student/Desktop/eeb-177/eeb-177-final-project/data_file/occurence_graph/manipulated-data.csv","w")
+
+# use sorted so the output will be sorted in alphabetical order
+for key in sorted(species_ranges.keys()):
+    ages = species_ranges[key]
+    min_age = min(ages) #getting min_age and max_age from the mean data values
+    max_age = max(ages)
+    genus = key.split(" ")[0]
+    species = key
+    print(genus,species, max_age,min_age)
+    outline = "{},{},{},{}\n".format(genus, species, max_age, min_age)
+    output.write(outline)
+    output.close
+    
+```
+  **Below shows the data table that was produced:**
+
+```{r, echo = FALSE, }
+library(ggplot2)
+# setwd("~/Desktop/eeb-177/eeb-177-final-project/data_file/occurence_graph/")
+proboscidea <- read.csv("~/Desktop/eeb-177/eeb-177-final-project/data_file/occurence_graph/manipulated-data.csv", header = F, as.is = T)
+names(proboscidea) <- c("genus", "species", "minage","maxage")
+head(proboscidea)
+
+```
+
+\clearpage
+
+  **Using these data and the codes given in lecture, I was able to recreate the figures with my own data. (the code will not be shown)**
+
+
+```{r, echo = F, fig.cap= "Fossil Occurance of *Proboscidea* Species on Time Scale"}
+library(forcats)
+proboscidea_occ <- ggplot(proboscidea, aes( x = fct_reorder(species, maxage, .desc = T), maxage, colour = genus))
+
+proboscidea_occ + geom_linerange(aes(ymin = minage, ymax = maxage + 0.5)) + theme(legend.position="none") +  coord_flip() +  theme(axis.text.y = element_text(size=4)) + scale_y_continuous(limits=c(0, 60), expand = c(0, 0), breaks=c (0, 10, 20, 30, 40, 50, 60)) + labs(title = "Proboscidea Fossil Occurrences", x = "Species", y = "Ma ago") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size= 16)) 
+```
+
+```{r, echo = F, fig.width= 5, fig.height= 3, fig.cap = "Diversity of *Proboscidea* Species through Time"}
+library(tidyr)
+library(dplyr)
+
+diversity <- proboscidea %>% gather(key = type, value = age, minage, maxage) %>% mutate(count = ifelse(type == "maxage", 1, -1)) %>% group_by(age) %>% summarise(count = sum(count))  %>% arrange(age,count) %>% mutate(diversity = cumsum(count)) 
+
+ggplot( diversity, aes(x = age, y = diversity)) + geom_step() + labs(title = "Diversity through Time")+ theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=16)) 
+
+```
+
+$~$
+
+$~$
+
+$~$
+
+$~$
+
+$~$
+
+$~$
+
+### 2. Creating Fossil Records Graph on World Map
+
+  In order to create a graph showing where the *Proboscidea* were found, we needed the **PaleoBiology Database** to output location (latitude and longitude). The data was modified through the shell(not python) using [cut -d "," -f 6,7,11,12,17,18,20,21 location.csv > formatted-location.csv]. The data were not modified through python because in order to show all the fossil records, creation of dictionary was needed. In total 8 colums were outputted: accepted name, accepted rank, max_ma, min_ma, family, genus, longitude, and latitude. Accepted_rank, max_ma, and family were outputted in order to manipulate the graphs according to different classifications.
+
+```{r, echo = F}
+library(ggplot2)
+
+# setwd("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/")
+proboscidea <- read.csv("~/Desktop/eeb-177/eeb-177-final-project/data_file/location/location.csv", header = T, as.is = T)
+head(proboscidea)
+
+```
+
+  **Below shows the function in creating the Graph:**
+
+```{r, fig.width= 5, fig.height = 3, fig.cap = "Fossil Records of *Proboscidea* on Worl Map"}
+# first of all we needed to import a world map
+library(maps)
+library(ggplot2)
+world_map <- map_data("world")
+
+#Then, we needed to create a base plot with gpplot2
+p <- ggplot() + coord_fixed() + xlab("") + ylab("")
+
+#Add map to base plot
+base_world_messy <- p + geom_polygon(data=world_map, aes(x=long, y=lat, group=group), colour="light green ", fill="light green")
+
+# next we need to put the data(lng and lat) to the map
+map_data <- 
+  base_world_messy + geom_point(data=proboscidea,aes(x=lng, y=lat), colour="Blue",pch=2, size=0.1, alpha=I(1)) + labs(title = "Fossil Records on World Map", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))
+
+# show the map
+map_data
+```
+$~$
+
+  **In order to see *Proboscidea* appearance over time, a graph with coloring according to time was created. This shows us not only the appearance of fossil fuels, we can also use this graph to see the pattern of spreading of *Proboscidea*.**
+
+```{r, fig.cap = "Fossil Records Found and Classifying Them According to Time"}
+#Create a base plot with gpplot2
+p <- ggplot() + coord_fixed() + xlab("") + ylab("")
+
+#Add map to base plot
+base_world_messy1 <- p + geom_polygon(data=world_map, aes(x=long, y=lat, group=group), colour="black  ", fill="black ")
+
+# I added this step to make the graph more colorful and more easy to identify the classifications (the default setting of colors only shows the gradual change in colors from white to blue, so its really hard to see differences)
+library(RColorBrewer)
+myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
+sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 50))
+
+# plot the data on the graph
+map_data <- base_world_messy1 + geom_point(data=proboscidea,aes(x=lng, y=lat, colour=max_ma),pch=2, size=0.2, alpha=I(1)) + labs(title = "Fossil Records according to Time", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10)) + sc
+
+map_data
+```
+
+
+
+  **By changing the color according to the Family, we get the Map below:**
+
+```{r, echo = F, fig.cap = "Fossil Records found According to Family of *Proboscidea*"}
+cbPalette <- c("#000000", "#FF3399", "#CC6633", "990000", "#FFFF00", "#6600CC", "#66CCFF", "#006600","#FF3300","#0033FF","#FFFFFF","#FFCCCC")
+scv<-scale_colour_manual(values=cbPalette)
+
+map_data <- 
+  base_world_messy + geom_point(data=proboscidea,aes(x=lng, y=lat, colour=family),pch=20, size=0.3, alpha=I(1)) + labs(title = "Fossil Records according to Family", x = "Longitude", y = "Latitude") + theme(plot.title = element_text(hjust = 0.5, size=18, face = "bold"), axis.title =element_text(size=10))+scv
+
+map_data
+```
+\clearpage
+
+
+### 3. Generating extinction, speciation, and diversitification graphs through shell
+
+  In order to find out the rates of extinction, speciation, and diversification, the steps we learned in the lab were used to create the figures. The script needed to know the extant species of *Proboscidea*, in this case, the extant species were *Loxodonta cyclotis, Loxodonta africana, Elephas maximus*.
+
+  The PyRate uses the equation below to estimate the rates of [speciation and extinction](https://academic.oup.com/sysbio/article/63/3/349/1650079/Bayesian-Estimation-of-Speciation-and-Extinction)\footnote{https://academic.oup.com/sysbio/article/63/3/349/1650079/Bayesian-Estimation-of-Speciation-and-Extinction} :
+
+$P(X|s, e, q) = \prod_{i=1}^{n}P_{NHPP}(t_1^i, \dots t_{k_{i}}^i|s_i,e_i,q)$
+
+  In order to get a flawless data, 2500000 steps in the MCMC chain were used to run PyRate analysis. By using the code (python ~/PyRate/PyRate.py -plot proboscidea_1_marginal_rates.log) in the shell, a PDF with the speciation, extinction, and diversification rates was created.
+
+
+\begin{figure}[h]
+\label{fig:pop}
+\includegraphics[width=15cm, height=10cm,keepaspectratio]{screen-shots/speciation_rate.png}
+\centering
+\caption{Speciation Rate of Proboscidea}
+\end{figure}
+
+\begin{figure}
+\label{fig:pop}
+\includegraphics[width=15cm, height=10cm,keepaspectratio]{screen-shots/extinction_rate.png}
+\centering
+\caption{Extincation Rate of Proboscidea}
+\end{figure}
+
+\begin{figure}
+\label{fig:pop}
+\includegraphics[width=15cm, height=10cm,keepaspectratio]{screen-shots/diversification.png}
+\centering
+\caption{Net Diversification Rate of Proboscidea}
+\end{figure}
+
+
+
+
+\clearpage
+
+## Results
+
+  *Proboscidea* is one of the orders that used to be widely spread. According to Proboscidea Fossil Occurence figure (Figure 2): there were only 4 species of *Proboscidea* recorded during 58-52 ma, no species were recorded during 52-38 ma. However, since 38 ma to present the number of species have been slowly increasing, with a steep fall in recent years. Moreover, the Figure 2 and Figure 3 shows us that the number of unique species reached the peak around 10 mya, with a total of 23 species, and another peak around 2 mya, with a total of 20 species. Since the colors in Figure 2 are classified by genus, you can see that each genus contains one species that has widest occurence range, from here we can assume that other species from same genus can be evolved from those species.
+
+  Figures 3, 4, and 5 show the Fossil Records found on a World Map. As Figure 4 shown, most of the early fossil records are found in Africa, where *Proboscidea* were first originated. They were spreading around the African continent until 35 ma, and reached other continents, such as Europe, Asia and North America, around 25 ma; around 15 ma the earliesr fossil records have shown that they reached South America. Moreover, as seen on the map, most of the fossil records of *Proboscidea* in Europe were from 15-10 ma, while most of the fossil records that are found in North and South America are 2-0 ma. South East Asia also contained records of *Proboscidea* that are from 2-0. Figure 5 showed the fossil records according to the family, which tells us that most widespread families around the world were Gomphotheriidae, Mammutidae, and Elephantidae. Other species were mainly found in one area. 
+
+*** Rerun speciation graph
+
+As shown on Figure 3, many species of *Proboscidea* order went extinct. The extinction rate of past 1 million year reached as high as 1.4, while the speciation rate went down to 0.15, which gives us a net diversification rate of -1.25
+
+## Discussion
+
+*Proboscidea* once occupied wide variety of habitats, from mountain tops to deserts [@Shoshani_1998]. As the figure 3 shown, they occupied whole world, except Australia and Antarctica. These large mammals managed to adapt to different environments and spread around the world. But how did they manage to swim across the ocean? No, they did not swim across Atlantic Ocean or Pacific Ocean to get to North America. The continents used to be close to each other million years ago (below shows two figures of the Earth: one is 50 million years ago and another one is 35 million years ago). During the time when *Proboscidea* first appeared on the Earth, continents were connected. The first fossil records of *Proboscidea* species that managed to get to North America were around 25 ma, and to South America were around 19 ma; which means that the *Proboscidea* first came to North America, then gradually moved to South America. Since there are no fossil records on Greenland, the *Proboscidea* never lived or passed Greenland and they managed to reach North America directly.
+
+\begin{figure}[h]
+\label{fig:pop}
+\includegraphics[width=9cm, height=7cm,keepaspectratio]{screen-shots/100mya.jpg}
+\centering
+\caption{Continent Map - 100 MYA\protect\footnotemark}
+\end{figure}
+\footnotetext{the picture taken from http://www.nationalgeographic.org/encyclopedia/continental-drift/}
+
+\begin{figure}[h]
+\label{fig:pop}
+\includegraphics[width=9cm, height=7cm,keepaspectratio]{screen-shots/50mya.jpg}
+\centering
+\caption{Continent Map - 50 MYA\protect\footnotemark}
+\end{figure}
+\footnotetext{the picture taken from http://www.nationalgeographic.org/encyclopedia/continental-drift/}
+
+*Proboscidea* managed to spread around the world in past 60 ma, however, the introduction of humans to their habitats swept them away in just few thousand years[@Lima-Ribeiro_2013; @Koch_2006]. Since human geographic ranges were located closely to the ranges of *Proboscidea* habitats, the expansion of human ranges created local extinctions of species [@Surovell_2005]. In fact, the last-appearance records of *Proboscidea* in South America and the first-appearance records of humans in South America closely correspond [@Prado_2015]. Human hunting have created such a huge impact on density of these mammals because *Proboscideans* are considered as slow-breeding mammals, k-selected species [@Koch_2006]. Since they reproduce slowly and on average they have few amounts of offsprings, in order for them to recover to previous capacity would take a long time[@Surovell_2005].
+
+
+
+\clearpage
+
+## References
+
+
+
+
