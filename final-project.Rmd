@@ -272,6 +272,16 @@ Human hunting was not only a reason why *Proboscideans* went extinct, in fact, i
 
 Overall, the two main reason of extinction of *Proboscideans* were human hunting and climate change. Although habitat change, competition, and fauna diversity also impacted the extinction, they all considered as the effects of climate change. Right now, there are only 3 extant species [@Shoshani_2005], out of 115 unique species that lived in this Planet. We need to protect these species and help them to reproduce, so future generations can still have chance to see these beautiful mammals. Humans are creating the sixth mass extinction[@Ceballos_2015] and every mass extinction kills, on average, over 70% of species. We need to find ways to protect these species, so they wont get completely wiped away from the Earth.
 
+$~$
+
+$~$
+
+Please click on the text below to see the whole Github of the final project:
+
+[**Linna's Github link**](https://github.com/lenaxxxx/eeb-177-final-project)
+
+
+
 \clearpage
 
 ## References
